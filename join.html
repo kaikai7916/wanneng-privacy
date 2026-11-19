@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>加入萬能記帳本共享帳本</title>
+<style>
+  :root { --bg:#fff1f6; --card:#fff; --ink:#4a2c3d; --sub:#8a5a72; --line:#ffd0e2; --accent:#d6336c; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#1c1622; --card:#2c2336; --ink:#f7eaf1; --sub:#cdb0c2; --line:#4a3a58; --accent:#ff8fb8; }
+  }
+  body { margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif; line-height:1.7; }
+  main { max-width:520px; margin:0 auto; padding:40px 16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:20px; padding:24px; }
+  h1 { font-size:22px; margin:0 0 8px; }
+  p { color:var(--sub); margin:8px 0; }
+  a.button { display:block; text-align:center; margin-top:16px; padding:14px; border-radius:999px;
+    background:var(--accent); color:#fff; text-decoration:none; font-weight:700; }
+  a.plain { display:block; text-align:center; margin-top:12px; color:var(--accent); }
+</style>
+</head>
+<body><main><div class="card">
+<h1 id="title">加入共享帳本</h1>
+<p id="hint">正在打開萬能記帳本…</p>
+<a class="button" id="open" href="#">用萬能記帳本打開</a>
+<a class="plain" href="https://play.google.com/store/apps/details?id=com.kaisever.wanneng">還沒安裝？到 Google Play 下載</a>
+<p style="font-size:13px">邀請內容只在你的手機上處理，這個網頁不會收到或保存任何資料。</p>
+</div></main>
+<script>
+  // 邀請代碼在網址 # 後面；瀏覽器不會把這一段送到伺服器。
+  var code = location.hash.replace(/^#/, '');
+  var store = 'https://play.google.com/store/apps/details?id=com.kaisever.wanneng';
+  var app = 'intent://join?code=' + encodeURIComponent(code) +
+    '#Intent;scheme=wanneng;package=com.kaisever.wanneng;S.browser_fallback_url=' +
+    encodeURIComponent(store) + ';end';
+  document.getElementById('open').href = code ? app : store;
+  if (!code) {
+    document.getElementById('hint').textContent = '這個邀請連結不完整，請請朋友重新傳一次。';
+  } else if (/Android/i.test(navigator.userAgent)) {
+    location.href = app;
+  } else {
+    document.getElementById('hint').textContent = '請用 Android 手機打開這個連結。';
+  }
+</script>
+</body>
+</html>
